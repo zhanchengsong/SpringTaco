@@ -7,11 +7,15 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+
+import ninja.zhancheng.tacospring.Data.TacoRepository;
+import ninja.zhancheng.tacospring.Domain.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,16 +32,22 @@ import ninja.zhancheng.tacospring.Domain.Taco;
 @RequestMapping("/design")
 public class DesignTacoController {
 
-	private final IngredientRepository ingredientRepository;
+	private final IngredientRepository ingredientRepo;
+
+	private TacoRepository tacoRepo;
+
 	@Autowired
-	public DesignTacoController(IngredientRepository ingredientRepo) {
-		this.ingredientRepository = ingredientRepo;
+	public DesignTacoController(
+			IngredientRepository ingredientRepo,
+			TacoRepository tacoRepo) {
+		this.ingredientRepo = ingredientRepo;
+		this.tacoRepo = tacoRepo;
 	}
 
 	@GetMapping
 	public String showDesignForm(Model model) {
 		List<Ingredient> ingredients = new ArrayList<>();
-		ingredientRepository.findAll().forEach(i -> ingredients.add(i));
+		ingredientRepo.findAll().forEach(i -> ingredients.add(i));
 
 		Type[] types = Ingredient.Type.values();
 		for (Type type : types) {
@@ -51,10 +61,14 @@ public class DesignTacoController {
 	}
 
 	@PostMapping
-	public String processDesign(@Valid Taco design, Errors errors) {
+	public String processDesign(@Valid Taco design,
+								Errors errors,
+								@ModelAttribute Order order) {
 		if (errors.hasErrors()) {
 			return "design";
 		}
+		Taco saved = tacoRepo.save(design);
+		order.addDesign(saved);
 
 		// Save the taco design...
 		// We'll do this in chapter 3
