@@ -29,7 +29,7 @@ import ninja.zhancheng.tacospring.Domain.Taco;
 
 @Slf4j
 @Controller
-@RequestMapping("/design")
+@RequestMapping("/mvc/design")
 public class DesignTacoController {
 
 	private final IngredientRepository ingredientRepo;
