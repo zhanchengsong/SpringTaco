@@ -28,6 +28,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/design", "/orders")
+                .access("hasRole('ROLE_USER')")
+                .antMatchers("/", "/**").permitAll()
+
+
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/design", true)
+
+                .and()
+                .csrf()
+                .ignoringAntMatchers("/h2-console/**")
+
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+
+                .and()
+                .csrf()
+                .ignoringAntMatchers("/h2-console/**")
+
+                .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin();
+                
+
+    }
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
         auth
@@ -35,29 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(encoder());
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/design", "/orders")
-                .hasRole("ROLE_USER")
-                .antMatchers("/", "/**").permitAll()
 
-
-        .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/design", true)
-
-        .and()
-                .csrf()
-                .ignoringAntMatchers("/h2-console/**")
-
-        .and()
-                .logout()
-                .logoutSuccessUrl("/");
-
-    }
 
 }
 

@@ -1,0 +1,14 @@
+
+spring.h2.console.enabled=true
+spring.jpa.show-sql=true
+#spring.jpa.hibernate.ddl-auto=create
+#spring.datasource.url=jdbc:mysql://localhost:3306/springtaco?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+#spring.datasource.username=server
+#spring.datasource.password=diet4coke
+#sprint.datasource.dialect=org.hibernate.dialect.MySQL8Dialect
+
+spring.rabbitmq.host=buck.rmq.cloudamqp.com
+spring.rabbitmq.username=gerozuqd
+spring.rabbitmq.password=iLzWnR2WfxOk867fKuTp-EZfIiDKUokk
+
+spring.kafka.bootstrap-servers=localhost:9092

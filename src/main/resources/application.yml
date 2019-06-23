@@ -1,0 +1,11 @@
+spring:
+  kafka:
+    bootstrap-servers:
+      - localhost: 9092
+
+  jpa:
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
