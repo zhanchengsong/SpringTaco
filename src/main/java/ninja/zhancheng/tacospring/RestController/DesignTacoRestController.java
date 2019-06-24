@@ -1,6 +1,7 @@
 package ninja.zhancheng.tacospring.RestController;
 
-import ninja.zhancheng.tacospring.Controller.DesignTacoController;
+
+import lombok.extern.slf4j.Slf4j;
 import ninja.zhancheng.tacospring.Data.OrderRepository;
 import ninja.zhancheng.tacospring.Data.TacoRepository;
 import ninja.zhancheng.tacospring.Domain.Order;
@@ -22,8 +23,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path="/api/design", produces="application/json")
-@CrossOrigin("*")
+@RequestMapping(path="/design", produces="application/json")
+@CrossOrigin(origins="*")
 public class DesignTacoRestController {
     @Autowired
     private TacoRepository tacoRepo;
@@ -42,7 +43,7 @@ public class DesignTacoRestController {
         List<Taco> tacos = tacoRepo.findAll(page).getContent();
         Resources<Resource<Taco>> recentResources = Resources.wrap(tacos);
         recentResources.add(
-                ControllerLinkBuilder.linkTo(DesignTacoController.class)
+                ControllerLinkBuilder.linkTo(DesignTacoRestController.class)
                 .slash("recent")
                 .withRel("recents")
         );
@@ -63,6 +64,7 @@ public class DesignTacoRestController {
     @PostMapping(consumes="application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Taco postTaco(@RequestBody Taco taco) {
+
         return tacoRepo.save(taco);
     }
 
